@@ -19,14 +19,27 @@ class TestBoard < Minitest::Test
   end
 
   def test_add_snakes_or_ladders()
-    @board.add_snakes_or_ladders(@snake1)
+    @board.add_snakes_or_ladders()
     result = @board.position_array[60]
     assert_equal(@snake1, result)
   end
 
   def test_move_player_token()
-    @board.move_player_token("Aline")
+    @board.move_player_token()
     assert_equal(2, @player1.position)
+  end
+
+  def test_move_player_token__landed_on_snake()
+    @board.add_snakes_or_ladders()
+    @board.players[0].position = 45
+    @board.move_player_token()
+    assert_equal(32, @player1.position)
+  end
+
+  def test_move_player_token__landed_on_100()
+    @board.players[0].position = 98
+    result = @board.move_player_token()
+    assert_equal("Aline wins!", result)
   end
 
 end

@@ -10,28 +10,39 @@ class Board
   end
 
 
-  def add_snakes_or_ladders(snake_or_ladder)
+  def add_snakes_or_ladders()
     # function adds snake or ladder to the board
     # access the array at the starting_point of the snake or ladder1
     # replace the array at that position with the snake or ladder
-    @position_array[snake_or_ladder.starting_point] = snake_or_ladder
+    for sal in @snakesandladders
+      @position_array[sal.starting_point] = sal
+    end
   end
 
-  def move_player_token(name)
-    # access player_token that matches name
-    # update player_token's @position to (@position + dice roll)
-    # if @position = snake or ladder, update player_token's to snake or ladders ending_point
-    # if @position = 100, display game winning message
+  def move_player_token()
+  # update each player_token's @position to (@position + dice roll)
     for player_tokens in @players
-      if player_tokens.name == name
-        result = @dice.random_score()
-        player_tokens.position += result
+      player_tokens.position += @dice.random_score()
+  # if @position = snake or ladder, update player_token's to snake or ladders ending_point
+      if @position_array[player_tokens.position] != nil
+        old_player_tokens = player_tokens.position
+        player_tokens.position = @position_array[player_tokens.position].ending_point
+        puts "Blimey! #{player_tokens.name} moved from #{old_player_tokens} to #{player_tokens.position}! What a change!"
+        puts ""
+  # if @position = 100, display game winning message
+      elsif player_tokens.position >= 100
+        puts "#{player_tokens.name} wins!"
+        break
+  # else, print players new position
+      else puts "#{player_tokens.name} is now at #{player_tokens.position}!"
+        puts ""
       end
     end
   end
 
-  def turn()
-    move_player_token(every player)
+  def game()
+    add_snakes_or_ladders()
+    move_player_token() until @players[0].position >= 100 || @players[1].position >= 100
   end
 
 end
