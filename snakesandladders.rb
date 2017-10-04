@@ -1,4 +1,4 @@
-class Snakes
+class SnakesAndLadders
 
   attr_reader :starting_point, :ending_point
   def initialize(starting_point, ending_point)
