@@ -1,6 +1,6 @@
 class Dice
 
-  attr_reader :current_score
+  attr_accessor :possible_scores, :current_score
   def initialize(max_score)
     @possible_scores = Array.new(max_score) {|i| i+1}
     @current_score = 0
